@@ -1,0 +1,20 @@
+# Use an official Python slim image as the base
+FROM python:3.9-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy all project files from your host machine into the container's /app directory
+COPY . /app
+
+# Install all required Python packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Automatically run the training script during image build to generate model.pkl
+RUN python train.py
+
+# Expose port 5000 so the container listens on it internally
+EXPOSE 5000
+
+# Define the command to run when the container starts up
+CMD ["python", "app.py"]
